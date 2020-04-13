@@ -1,0 +1,10 @@
+*.zip
+*.class
+actual*.txt
+*.out
+*.o
+*.pyc
+perf-*.txt
+base-*.txt
+edge-*.txt
+core.*
