@@ -17,7 +17,7 @@ class SearchA2DMatrix {
 
         for(int i = 0 ; i < queries ; ++i) {
             int target = scanner.nextInt();
-            boolean result = new Solution().searchMatrix(matrix , target);
+            boolean result = new solution().searchMatrix(matrix , target);
             System.out.println(result);
         }
         scanner.close();
