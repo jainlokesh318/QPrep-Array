@@ -1,7 +1,8 @@
 
+# Implement your solution here
 def countConversionBits(a, b):
-    xorr = a^b
-    result = bin(xorr).count('1')
+    result = 0
+
     return result
 
 def main():

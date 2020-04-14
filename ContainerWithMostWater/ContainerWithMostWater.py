@@ -1,8 +1,8 @@
+
+# Implement your solution here
 def maxArea(height):
     answer = 0
-    # CRIO_SOLUTION_START_MODULE_CONTAINER_WITH_MOST_WATER
 
-    # CRIO_SOLUTION_END_MODULE_CONTAINER_WITH_MOST_WATER
     return answer
 
 if __name__ == '__main__':

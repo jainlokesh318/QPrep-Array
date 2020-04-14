@@ -1,24 +1,7 @@
-
+# Implement your solution here
 def find_unsorted_subarray(nums):
-    copy = nums.copy()
-    n = len(nums)
-    copy.sort()
-    start = -1
-    last = -1
-    for i in range(n):
-        if copy[i] != nums[i]:
-            start = i
-            break
 
-    for i in range(n-1, -1, -1):
-        if copy[i] != nums[i]:
-            last = i
-            break
-
-    if start == -1 and last == -1:
-        return 0
-    return last - start + 1
-
+    return 0
 
 def main():
     n = int(input())

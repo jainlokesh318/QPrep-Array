@@ -1,31 +1,10 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// Implement your solution here
 int totalFruit(vector<int>& tree) {
-	map<int,int>m;
-	int low = 0 , high = 0,ans = 0;
-	while(high < tree.size()) {
-		if(m.size() > 2) {
-			m[tree[low]]--;
-			if(m[tree[low]] == 0) {
-				m.erase(tree[low]);
-			}
-			low++;
-			continue;
-		}
-		m[tree[high]]++;
-		if(m.size() <= 2) {
-			ans = max(ans,high-low+1);
-			high++;
-		} else {
-			m[tree[low]]--;
-			if(m[tree[low]] == 0) {
-				m.erase(tree[low]);
-			}
-			low++;
-			high++;
-		}
-	}	
+	int ans = 0;
+
 	return ans;
 }
 

@@ -1,5 +1,4 @@
 def search(nums, target):
-    # TODO: CRIO_TASK_MODULE_L2_PROBLEMS
     # Your implementation goes here
 
     return 0

@@ -9,30 +9,7 @@ class ContainerWithMostWater {
     int maxArea(vector<int>& height) {
         int answer = 0;
         // Your implementation goes here
-        // CRIO_SOLUTION_START_MODULE_CONTAINER_WITH_MOST_WATER
-        int n = height.size();
-        int left = 0, right = n - 1;
-        int minimum =
-            (height[left] < height[right] ? height[left] : height[right]);
-        answer = minimum * (right - left);
-        while (left < right) {
-            if (height[left] < height[right]) {
-                left++;
-                minimum = (height[left] < height[right] ? height[left]
-                                                        : height[right]);
-                answer = (answer > minimum * (right - left)
-                              ? answer
-                              : minimum * (right - left));
-            } else {
-                right--;
-                minimum = (height[left] < height[right] ? height[left]
-                                                        : height[right]);
-                answer = (answer > minimum * (right - left)
-                              ? answer
-                              : minimum * (right - left));
-            }
-        }
-        // CRIO_SOLUTION_END_MODULE_CONTAINER_WITH_MOST_WATER
+	
         return answer;
     }
 };

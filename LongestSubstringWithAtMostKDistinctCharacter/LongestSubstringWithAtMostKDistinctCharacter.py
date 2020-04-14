@@ -1,21 +1,8 @@
-from collections import Counter
 
+# Implement your solution here
 def length_of_substring(s, k):
-    if k == 0:
-        return 0
-    start = end = 0
-    answer = 1
-    dic = Counter()
-    while end < len(s):
-        dic[s[end]] += 1
-        end += 1
-        while len(dic) > k:
-            if dic[s[start]] != 1:
-                dic[s[start]] -= 1
-            else:
-                del dic[s[start]] 
-            start += 1
-        answer = max(answer, end - start)
+    answer = 0
+
     return answer
 
 def main():

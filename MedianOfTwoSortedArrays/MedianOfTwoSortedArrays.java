@@ -2,45 +2,10 @@ import java.io.*;
 import java.util.*;
 
 class MedianOfTwoSortedArrays {
-    // CRIO_MODIFY_MODULE_L3_PROBLEMS
-    // TODO: CRIO_TASK_MODULE_L3_PROBLEMS
     // complete the below function implementation
      public double findMedianSortedArrays(int[] nums1, int[] nums2 , int m, int n) {
-        // CRIO_SOLUTION_START_MODULE_L3_PROBLEMS
-        if (m > n) {
-            return findMedianSortedArrays(nums2,nums1,n,m);
-        }
-        int low = 0, high = m, total = (m + n + 1) / 2;
-        while (low <= high) {
-            int partA = (low + high) / 2;
-            int partB = total - partA;
-            int maxLeftA = (partA == 0) ? Integer.MIN_VALUE : nums1[partA-1];
-            int maxLeftB = (partB == 0) ? Integer.MIN_VALUE : nums2[partB-1];
-            int minRightA = (partA == m) ? Integer.MAX_VALUE : nums1[partA];
-            int minRightB = (partB == n) ? Integer.MAX_VALUE : nums2[partB];
-            if(maxLeftA <= minRightB && maxLeftB <= minRightA) {
-                if((m+n)%2 == 0) {
-                    double ans = Math.max(maxLeftA,maxLeftB) + Math.min(minRightA,minRightB);
-                    ans = ans/2.0;
-                    return ans;
-                } else {
-                    double ans = Math.max(maxLeftA,maxLeftB);
-                    return ans;
-                    
-                }
-             } else {
-                if(maxLeftA > minRightB) {
-                    high = partA - 1;
-                } else {
-                    low = partA + 1;
-                }
-             }
-        }
+
         return 0.0;
-        // CRIO_SOLUTION_END_MODULE_L3_PROBLEMS
-        // CRIO_UNCOMMENT_START_MODULE_L3_PROBLEMS
-        // return 0.0;
-        // CRIO_UNCOMMENT_END_MODULE_L3_PROBLEMS  
     }
     public static void main(String args[]) throws IOException {
         Scanner scanner = new Scanner(System.in);

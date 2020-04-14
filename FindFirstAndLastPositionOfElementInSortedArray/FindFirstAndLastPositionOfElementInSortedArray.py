@@ -2,7 +2,6 @@ from crio.io import PrintMatrix
 
 def searchRange(nums):
     v = [-1, -1]
-    # TODO: CRIO_TASK_MODULE_L2_PROBLEMS
     # Your implementation goes here
 
     return v

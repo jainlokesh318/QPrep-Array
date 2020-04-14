@@ -1,9 +1,9 @@
-#include<bits/stdc++.h>
 using namespace std;
 
+// Implement your solution here
 int countConversionBits(long long a,long long b) {
-	long long xorr = a^b;
-	int result = __builtin_popcountll(xorr);
+	int result = 0
+
 	return result;
 }
 
