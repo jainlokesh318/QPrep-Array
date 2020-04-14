@@ -15,7 +15,7 @@ public:
 		}
 	}
 	
-	void SquareMatrix(vector<vector<T>> arr) {
+	void SquareMatrix(vector<vector<T> > arr) {
 		int n = arr.size();
 		for(int i = 0; i < n; i++) {
 			for(int j = 0; j < n; j++) {
@@ -25,7 +25,7 @@ public:
 		}
 	}
 	
-	void TwoDMatrix(vector<vector<T>> arr) {
+	void TwoDMatrix(vector<vector<T> > arr) {
 		int n = arr.size();
 		for(int i = 0; i < n; i++) {
 			int x = int(arr[i].size());

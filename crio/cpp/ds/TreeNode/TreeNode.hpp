@@ -57,9 +57,9 @@ public:
         return root;
     }
 
-    vector<vector<string>> makeLevelOrderFromTree(TreeNode* root) {
+    vector<vector<string> > makeLevelOrderFromTree(TreeNode* root) {
         queue<TreeNode*> q;
-        vector<vector<string>> answer;
+        vector<vector<string> > answer;
         if(root == NULL) {
             return answer;
         }
@@ -131,7 +131,7 @@ public:
     }
 
     string treeNodeToString(TreeNode* root) {
-        vector<vector<string>> arr = makeLevelOrderFromTree(root);
+        vector<vector<string> > arr = makeLevelOrderFromTree(root);
         string str = "";
         int n = arr.size();
         for(int i = 0; i < n; i++) {

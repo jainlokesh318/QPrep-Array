@@ -15,7 +15,7 @@ public:
 		}
 	}
 	
-	void SquareMatrix(int n, vector<vector<T>>& arr) {
+	void SquareMatrix(int n, vector<vector<T> >& arr) {
 		arr.resize(n);
 		for(int i = 0; i < n; i++) {
 			vector<T> brr(n);
@@ -26,7 +26,7 @@ public:
 		}
 	}
 	
-	void TwoDMatrix(int n, int m, vector<vector<T>>& arr) {
+	void TwoDMatrix(int n, int m, vector<vector<T> >& arr) {
 		arr.resize(n);
 		for(int i = 0; i < n; i++) {
 			vector<T> brr(m);
