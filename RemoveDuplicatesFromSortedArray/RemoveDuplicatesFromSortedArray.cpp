@@ -6,18 +6,10 @@ using namespace std;
 
 class RemoveDuplicatesFromSortedArray {
 public:
+    // Implement your solution here	
     int removeDuplicates(vector<int>& nums) {
         int ans = 0;
-        // CRIO_SOLUTION_START_MODULE_REMOVE_DUPLICATES_FROM_SORTED_ARRAY
-        int n = nums.size();
-        for(int i = 0; i < n; ) {
-            int x = nums[i];
-            nums[ans++] = nums[i++];
-            while(i < n && nums[i] == x) {
-                i++;
-            }
-        }
-        // CRIO_SOLUTION_END_MODULE_REMOVE_DUPLICATES_FROM_SORTED_ARRAY
+
         return ans;
     }
 };

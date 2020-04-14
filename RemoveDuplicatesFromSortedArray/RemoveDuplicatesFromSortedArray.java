@@ -4,24 +4,8 @@ import java.util.*;
 public class RemoveDuplicatesFromSortedArray {
     // Implement your solution by completing the below function
     public int removeDuplicates(int[] nums) {
-        // CRIO_SOLUTION_START_MODULE_REMOVE_DUPLICATES_FROM_SORTED_ARRAY
-        if (nums.length == 0)
-            return 0;
 
-        int i = 0;
-        for (int j = 1; j < nums.length; j++) {
-            if (nums[j] != nums[i]) {
-                i++;
-                nums[i] = nums[j];
-            }
-        }
-
-        return i + 1;
-        // CRIO_SOLUTION_END_MODULE_REMOVE_DUPLICATES_FROM_SORTED_ARRAY
-
-        // CRIO_UNCOMMENT_START_MODULE_REMOVE_DUPLICATES_FROM_SORTED_ARRAY
-        //return -1;
-        // CRIO_UNCOMMENT_END_MODULE_REMOVE_DUPLICATES_FROM_SORTED_ARRAY
+        return -1;
     }
 
     public static void main(String[] args) {

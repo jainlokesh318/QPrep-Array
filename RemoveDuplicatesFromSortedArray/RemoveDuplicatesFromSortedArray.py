@@ -1,8 +1,5 @@
 def removeDuplicates(nums):
     # Your implementation goes here
-    # CRIO_SOLUTION_START_MODULE_REMOVE_DUPLICATES_FROM_SORTED_ARRAY
-
-    # CRIO_SOLUTION_END_MODULE_REMOVE_DUPLICATES_FROM_SORTED_ARRAY
 
     return 0
 
