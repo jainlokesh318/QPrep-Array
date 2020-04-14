@@ -5,10 +5,23 @@ import os
 import sys
 import git
 from git import Repo
+import urllib.request
 
-TIMEOUT_FOR_ONE_JAVA_TESTCASE = 5.0
+#TODO: handle timeout
+#TODO: handle whitespace mismatch on output files
+
+TIMEOUT_FOR_ONE_JAVA_TESTCASE = 7.0
 
 import subprocess
+def cmd_timeout(cmds, timeout=2000):
+    p = subprocess.Popen(cmds)
+    try:
+        p.wait(my_timeout)
+    except subp.TimeoutExpired:
+        p.kill()
+        return 'Timeout'
+
+    print(p)
 
 def remove_whitespace(file_x):
     f = open(file_x, 'r+')
@@ -19,63 +32,101 @@ def remove_whitespace(file_x):
     lines = list(map(lambda x: x.strip(), lines))
     return lines
 
-def filecompare_ignore_whitespace(file1, file2):
+def filecompare_ignore_whitespace(file1, file2, debug):
     c1 = remove_whitespace(file1)
     c2 = remove_whitespace(file2)
+
+    if debug:
+        print("=" * 100)
+        print("Actual  :", c1, "\n")
+        print("Expected:", c2, "\n")
+        print("=" * 100)
 
     return c1 == c2
 
 def run_command_with_timeout(cmd, timeout_in_seconds):
-    ret = subprocess.call(cmd, shell=True, timeout=timeout_in_seconds)
+    crio_path = os.getenv('PWD')
+    new_path = crio_path
+    if os.getenv("PYTHONPATH"):
+        new_path = new_path + ":" + os.getenv('PYTHONPATH')
+    ret = subprocess.call(cmd, shell=True, timeout=timeout_in_seconds, env= { 'PYTHONPATH' : new_path})
     return ret
-def run(name_of_the_problem, language='c++'):
 
-    assert language in ['java', 'c++', 'c++11', 'c++14', 'c++17', 'python']
+def all_inc_directories(path, prefix):
+    all_incs = []
+    for root, directories, filenames in os.walk(path):
+        for directory in directories:
+            if directory == 'cpp':
+                all_incs.append(prefix + os.path.join(root, directory))
+    return all_incs
 
+def run(name_of_the_problem, debug, lang):
     all_test_files = os.listdir(name_of_the_problem + '/tests/')
-    compile_cmd = {
-            'java' : 'cd ' + name_of_the_problem + ' && javac -cp ..:crio.jar ' + '*.java',
-            'c++'  : 'cd ' + name_of_the_problem + ' && g++  -std=c++03 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
-            'c++11'  : 'cd ' + name_of_the_problem + ' && g++ -std=c++11 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
-            'c++14'  : 'cd ' + name_of_the_problem + ' && g++ -std=c++14 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
-            'c++17'  : 'cd ' + name_of_the_problem + ' && g++ -std=c++17 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
-            'python' : 'cd ' + name_of_the_problem + ' && pylint --disable=missing-docstring ' + name_of_the_problem + '.py'
-            }
-    compile_program = compile_cmd[language]
 
     evaluate_file = name_of_the_problem + '/evaluate.py'
     multiple_solution_possible = os.path.exists(evaluate_file)
 
+
+    all_tests_passed = True
+
+    full_file_name = {
+            'c++' : "{}/{}.cpp".format(name_of_the_problem, name_of_the_problem),
+            'java' : "{}/{}.java".format(name_of_the_problem, name_of_the_problem),
+            'python' : "{}/{}.py".format(name_of_the_problem, name_of_the_problem)
+            }
+
+    assert lang in ['c++', 'java', 'python']
+
+    print(full_file_name[lang])
+    if not os.path.exists(full_file_name[lang]):
+        print('Skipping tests: no file name {} not found'.format(full_file_name[lang]))
+        return True
+
     if multiple_solution_possible:
         print('\n====== Multiple solutions =========\n')
 
-    ret = os.system(compile_program)
+    ret = 0
 
-    if ret != 0 and language not in ['python']:
-        return test_results
+    inc_paths = ' '.join(all_inc_directories(os.getenv('PWD') + '/crio', '-I'))
+
+    compile_cmds = {
+            'c++' : 'cd {} && g++ -std=c++14 -Wall -Werror {} {}.cpp -o {}.out'.format(name_of_the_problem, inc_paths, name_of_the_problem, name_of_the_problem),
+            'java': 'cd {} && javac -cp ../crio.jar {}.java'.format(name_of_the_problem, name_of_the_problem)
+            }
+    if lang in compile_cmds:
+        compile_program = compile_cmds[lang]
+        ret = os.system(compile_program)
 
     test_results = {}
 
-    for file_name in sorted(all_test_files):
+    if ret != 0:
+        return test_results
+
+    all_test_files = sorted(all_test_files)
+
+    for index in range(len(all_test_files)):
+        file_name = all_test_files[index]
         if 'input-' in file_name:
             output_file_name = file_name.replace('input-', 'output-')
             test_name = file_name.replace('input-', 'test-')
+            if output_file_name in all_test_files:
+                actual_output_file = "actual-{}.txt".format(index)
 
-            if output_file_name in sorted(all_test_files):
-                test_output_filename = 'actual-{}'.format(output_file_name)
+                run_commands = {
+                    'c++' : 'cd {} && ./{}.out < tests/{} > {}'.format(name_of_the_problem, name_of_the_problem, file_name, actual_output_file),
+                    'java': 'cd {} && java -cp .:../crio.jar {} < tests/{} > {}'.format(name_of_the_problem, name_of_the_problem, file_name, actual_output_file),
+                    'python': 'cd {} && python3 {}.py < tests/{} > {}'.format(name_of_the_problem, name_of_the_problem, file_name, actual_output_file)
+                }
+                cmd_to_run = run_commands[lang]
                 try:
-                    run_one_test(language, name_of_the_problem, file_name, test_output_filename)
+                    run_command_with_timeout(cmd_to_run, TIMEOUT_FOR_ONE_JAVA_TESTCASE)
                     passed = False
                     if multiple_solution_possible:
-                        cmd = 'python3 {} {} {} {}'.format(evaluate_file,
-                                name_of_the_problem + '/tests/' + file_name,
-                                name_of_the_problem + '/tests/' + output_file_name,
-                                name_of_the_problem + '/' + test_output_filename)
-
+                        cmd = 'python3 {} {} {} {}'.format(evaluate_file, name_of_the_problem + '/tests/' + file_name, name_of_the_problem + '/tests/' + output_file_name, name_of_the_problem + '/' + actual_output_file)
                         proc = subprocess.run(cmd, shell=True)
                         passed = proc.returncode == 0
                     else:
-                        passed = filecompare_ignore_whitespace(os.path.join(name_of_the_problem, test_output_filename), '{}/tests/{}'.format(name_of_the_problem, output_file_name))
+                        passed = filecompare_ignore_whitespace(name_of_the_problem + '/{}'.format(actual_output_file), name_of_the_problem + '/tests/' + output_file_name, debug)
 
                     if passed:
                         print('%-25s : Passed' % (file_name))
@@ -84,78 +135,31 @@ def run(name_of_the_problem, language='c++'):
                         print('%-25s : Failed' % (file_name))
                         test_results[test_name] = 'FAILED'
                         all_tests_passed = False
-                except:
+                    continue
+                except subprocess.TimeoutExpired:
                     test_results[test_name] = 'TIMEDOUT'
                     all_tests_passed = False
                     print('%-25s: Timedout' % (file_name))
+                except:
+                    test_results[test_name] = 'RUNTIME_FAILURE'
+                    all_tests_passed = False
+                    print('Run time error')
 
 
-def run_one_test(language, name_of_the_problem, input_file_name, output_file_name):
-    run_cmd = {
-            'java' : 'java -cp .:..:crio.jar ' + name_of_the_problem,
-            'c++' :  './' + name_of_the_problem  + '.out',
-            'c++11' : './' + name_of_the_problem  + '.out',
-            'c++14' :  './' + name_of_the_problem  + '.out',
-            'c++17' :  './' + name_of_the_problem  + '.out',
-            'python' : 'python3 ' + name_of_the_problem  + '.py',
-            }
+    return all_tests_passed
 
-    cmd = "{} < tests/{} > {}".format(run_cmd[language], input_file_name, output_file_name)
-    full_cmd = "cd {} && {}".format(name_of_the_problem, cmd)
-    try:
-        run_command_with_timeout(full_cmd, TIMEOUT_FOR_ONE_JAVA_TESTCASE)
-    except:
-        #e = sys.exc_info()[0]
-        #print(e)
-        print('Timedout')
+def commit_msg(name_of_the_problem, submission_type, lang):
+    return "[{}]:[{}]:[{}]".format(submission_type, name_of_the_problem, lang)
 
-def run_with_custom_input(name_of_the_problem, language, input_file_path):
-    assert language in ['java', 'c++', 'c++11', 'c++14', 'c++17', 'python']
-    if input_file_path:
-        input_file_path = os.path.abspath(input_file_path)
-    compile_cmd = {
-            'java' : 'cd ' + name_of_the_problem + ' && javac -cp ..:crio.jar ' + '*.java',
-            'c++'  : 'cd ' + name_of_the_problem + ' && g++  -std=c++03 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
-            'c++11'  : 'cd ' + name_of_the_problem + ' && g++ -std=c++11 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
-            'c++14'  : 'cd ' + name_of_the_problem + ' && g++ -std=c++14 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
-            'c++17'  : 'cd ' + name_of_the_problem + ' && g++ -std=c++17 ' + name_of_the_problem + '.cpp -o ' + name_of_the_problem + '.out',
-            'python' : 'cd ' + name_of_the_problem + ' && python -m py_compile ' + name_of_the_problem + '.py'
-            }
-    compile_program = compile_cmd[language]
-
-    ret = os.system(compile_program)
-
-    if ret != 0 and language not in ['python']:
-        return False
-
-
-    run_cmd = {
-        'java' : 'cd ' + name_of_the_problem + ' &&  java -cp .:..:crio.jar ' + name_of_the_problem,
-        'c++' :  'cd ' + name_of_the_problem + ' &&  ./' + name_of_the_problem  + '.out',
-        'c++11' :  'cd ' + name_of_the_problem + ' &&  ./' + name_of_the_problem  + '.out',
-        'c++14' :  'cd ' + name_of_the_problem + ' &&  ./' + name_of_the_problem  + '.out',
-        'c++17' :  'cd ' + name_of_the_problem + ' &&  ./' + name_of_the_problem  + '.out',
-        'python' : 'cd ' + name_of_the_problem + ' &&  python3  ' + name_of_the_problem  + '.py'
-    }
-
-    cmd2 = run_cmd[language]
-    if input_file_path:
-        cmd2 += ' < ' + input_file_path
-    try:
-        run_command_with_timeout(cmd2, 100 * TIMEOUT_FOR_ONE_JAVA_TESTCASE)
-    except:
-        print('Timedout')
-    return True
-
-def commit_msg(name_of_the_problem, submission_type):
-    return "[{}]:[{}]".format(submission_type, name_of_the_problem)
-
-def submit(name_of_the_problem):
+def commit(name_of_the_problem, lang, push=False):
     repo = Repo('.')
     repo.index.add([name_of_the_problem], force=False)
-    repo.index.remove(['*/*.class'], force=False)
-    repo.index.commit(commit_msg(name_of_the_problem, "Solved"))
-    repo.remotes.origin.push()
+    # print(dir(repo.index))
+    if push:
+        repo.index.commit(commit_msg(name_of_the_problem, "Solved", lang))
+        repo.remotes.origin.push()
+    else:
+        repo.index.commit(commit_msg(name_of_the_problem, "LocalTest", lang))
 
 def get_submission_type_and_problem_id():
     repo = Repo('.')
@@ -174,22 +178,61 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog='myprogram')
     parser.add_argument('-r', '--run', help='Run problem id', action='store_true')
     parser.add_argument('-s', '--submit', help='Submit problem id', action='store_true')
+    parser.add_argument('-c', '--check-understanding', help='Check understanding of problem id', action='store_true')
     parser.add_argument('-t', '--test-all', help='all assessment for all problems', action='store_true')
-    parser.add_argument('-l', '--lang', help='solution language')
-    parser.add_argument('-p', '--problem', help='name of the problem solved')
-    parser.add_argument('--test' , help='test problem with custom input file', action='store_true')
-    parser.add_argument('--input' , help='input file for custom input')
+    parser.add_argument('-d', '--debug', help='print expected and actual output', action='store_true')
+    parser.add_argument('--problem', help='name of the problem solved')
+    parser.add_argument('--lang', help='language used', required=False)
+
+    developer = False
+    # CRIO_SOLUTION_START_MODULE_L1_PROBLEMS
+    # developer = True
+    # CRIO_SOLUTION_END_MODULE_L1_PROBLEMS
+    if "crio.jar" not in os.listdir():
+        url = "https://drive.google.com/uc?export=download&id=1HPgTA26cAOXeUj878FhL3k_rdnBhkHh_"
+        with urllib.request.urlopen(url) as response, open("crio.jar", 'wb') as out_file:
+            data = response.read()
+            out_file.write(data)
 
     args = parser.parse_args()
+    debug = False
+    if args.debug:
+        debug = True
+
+
+    if args.lang is None:
+        args.lang = 'java'
+
+    allowed_languages = ['c++', 'java', 'python']
+    if args.lang not in allowed_languages:
+        print('Allowed languages are ', allowed_languages)
+        sys.exit(1)
+
+    failed_problems = []
 
     if args.test_all:
-        all_problems = [dir for dir in os.listdir(os.getenv('PWD')) if dir[0] >= 'A' and dir[0] <= 'Z']
+        all_problems = next(os.walk(os.getenv('PWD')))[1]
+
+        try:
+            all_problems.remove('.git')
+            all_problems.remove('config')
+            all_problems.remove('crio')
+        except ValueError:
+            pass
+
         all_passed = True
         for problem in all_problems:
-            res = run(problem)
-            all_passed = all_passed and res
-            print(problem, ['FAILED','PASSED'][res])
+            try:
+                res = run(problem, debug, args.lang)
+                all_passed = all_passed and res
+                print(problem, ['FAILED','PASSED'][res])
+                if not res:
+                    failed_problems.append(problem)
+            except:
+                failed_problems.append(problem)
+                pass
 
+        print("All failed problems", failed_problems)
         if all_passed:
             sys.exit(0)
         else:
@@ -197,22 +240,25 @@ if __name__ == '__main__':
 
     dirs = os.listdir('.')
     if not args.problem in dirs:
-        # print(dirs)
-        print('Error: Invalid problem id: ', args.problem)
+        print(dirs)
+        print('Error: Invalid problem id: %s', args.problem)
         sys.exit(1)
 
     if args.run:
-        run(args.problem, args.lang)
-
-    if args.test:
-        if args.input:
-            if not os.path.exists(args.input):
-                print("Make sure file exists")
-                sys.exit(1)
-        #run(args.problem, args.lang, args.input)
-        run_with_custom_input(args.problem, args.lang, args.input)
+        if not developer:
+            commit(args.problem, args.lang, False)
+        run(args.problem, debug, args.lang)
 
     if args.submit:
-        run(args.problem, args.lang)
-        submit(args.problem)
+        run(args.problem, debug, args.lang)
+        if not developer:
+            commit(args.problem, args.lang, True)
         get_submission_type_and_problem_id()
+
+    if args.check_understanding:
+        print('check understanding')
+
+# python3 runner.py --problem Addition --lang java --run
+# python3 runner.py --problem Addition --lang c++ --run
+# python3 runner.py --problem Addition --lang python --run
+# python3 runner.py --problem Addition --lang java --submit
