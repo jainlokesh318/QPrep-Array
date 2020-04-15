@@ -1,6 +1,6 @@
-#include "FastIO.hpp"
-#include "PrintMatrix.hpp"
-#include "ReadMatrix.hpp"
+#include "../crio/cpp/io/FastIO.hpp"
+#include "../crio/cpp/io/PrintMatrix.hpp"
+#include "../crio/cpp/io/ReadMatrix.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 

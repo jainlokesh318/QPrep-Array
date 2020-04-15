@@ -4,7 +4,7 @@ using namespace std;
 
 vector<int> convertToBinary(ll n)
 {
-    ll flag=0,r,num=n;
+    ll r,num=n;
     vector<int> vec;
     while(num!=0)
     {

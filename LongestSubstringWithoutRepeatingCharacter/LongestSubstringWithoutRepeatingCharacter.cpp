@@ -1,4 +1,4 @@
-#include "FastIO.hpp"
+#include "../crio/cpp/io/FastIO.hpp"
 #include <bits/stdc++.h>
 using namespace std;
 

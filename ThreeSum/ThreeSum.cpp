@@ -22,7 +22,7 @@ int main() {
     ReadMatrix<int>().OneDMatrix(n, nums);
 
     vector<vector<int>> result = ThreeSum().threeSum(nums);
-    for (int i = 0; i < result.size(); i++) {
+    for (unsigned int i = 0; i < result.size(); i++) {
         cout << result[i][0] << " " << result[i][1] << " " << result[i][2]; 
         cout << endl; 
     }

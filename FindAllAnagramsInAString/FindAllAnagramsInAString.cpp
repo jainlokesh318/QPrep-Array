@@ -14,7 +14,7 @@ int main()
 	cin >> s >> p;
 	vector<int> answer = findAnagrams(s,p);
 	cout << answer.size() << "\n";
-	for(int i = 0 ; i < answer.size() ; i++) {
+	for(unsigned int i = 0 ; i < answer.size() ; i++) {
 		cout << answer[i] << " ";
 	}
 	return 0;
