@@ -91,7 +91,7 @@ def run(name_of_the_problem, debug, lang):
 
     compile_cmds = {
             'c++' : 'cd {} && g++ -std=c++14 -Wall -Werror {} {}.cpp -o {}.out'.format(name_of_the_problem, inc_paths, name_of_the_problem, name_of_the_problem),
-            'java': 'cd {} && javac -cp ../crio.jar {}.java'.format(name_of_the_problem, name_of_the_problem)
+            'java': 'cd {} && javac -cp ../crio.jar *.java'.format(name_of_the_problem, name_of_the_problem)
             }
     if lang in compile_cmds:
         compile_program = compile_cmds[lang]

@@ -1,5 +1,5 @@
 import sys
-from solution import solve
+from Solution import solve
 
 
 def main():

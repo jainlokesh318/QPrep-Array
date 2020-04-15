@@ -21,6 +21,7 @@ class ThreeSum {
         for(Integer i = 0 ; i < n ;i++) {
             nums[i] = scanner.nextInt();
         }
+        scanner.close();
 
         List<List<Integer>> result = new ThreeSum().threeSum(nums);
 
