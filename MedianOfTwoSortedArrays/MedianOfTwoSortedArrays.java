@@ -21,10 +21,10 @@ class MedianOfTwoSortedArrays {
         }
         int q = scanner.nextInt();
         for(int i = 0 ; i < q ; i++) {
-        int size1 = scanner.nextInt();
-        int size2 = scanner.nextInt();
-        double result = new MedianOfTwoSortedArrays().findMedianSortedArrays(nums1,nums2,size1,size2);
-        System.out.println(result);
+            int size1 = scanner.nextInt();
+            int size2 = scanner.nextInt();
+            double result = new MedianOfTwoSortedArrays().findMedianSortedArrays(nums1,nums2,size1,size2);
+            System.out.println(result);
         }
         scanner.close();
     }

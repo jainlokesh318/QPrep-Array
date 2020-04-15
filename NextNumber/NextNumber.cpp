@@ -2,27 +2,15 @@
 using namespace std;
 #define ll long long
 
-vector<int> convertToBinary(ll n)
-{
-    ll r,num=n;
-    vector<int> vec;
-    while(num!=0)
-    {
-        r=num%2;
-        num/=2;
-        vec.push_back(r);
-    }
-    return vec;
-}
-
 // Implement the below functions
-ll nextGreater(vector<int> vec)
+ll nextGreater(ll n)
 {
     ll ans = 0;
 
     return ans;
 }
-ll nextSmaller(vector<int> vec)
+
+ll nextSmaller(ll n)
 {
     ll ans = 0;
 
@@ -34,9 +22,8 @@ int main()
 {
     ll n;
     cin>>n;
-    vector<int> vec = convertToBinary(n);
-    ll great=nextGreater(vec);
-    ll small=nextSmaller(vec);
+    ll great=nextGreater(n);
+    ll small=nextSmaller(n);
     cout<<great<<"\n";
     if(small==-1)
         cout<<"No Number\n";

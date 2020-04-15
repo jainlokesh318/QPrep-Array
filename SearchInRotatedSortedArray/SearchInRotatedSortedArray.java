@@ -22,5 +22,6 @@ class SearchInRotatedSortedArray {
             System.out.println(result);
             q--;
         }
+	scanner.close();
     }
 }
