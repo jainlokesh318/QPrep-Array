@@ -10,11 +10,12 @@ double findMedianOfTwoSortedArrays(vector<int>& nums1, vector<int>& nums2) {
 int main()
 {
 	int m, n;
-	cin >> m >> n;
+	cin >> m;
 	vector<int>nums1(m);
 	for(int i = 0 ; i < m ; i++) {
 		cin >> nums1[i];
 	}
+	cin >> n;
 	vector<int>nums2(n);
 	for(int i = 0 ; i < n ; i++) {
 		cin >> nums2[i];
