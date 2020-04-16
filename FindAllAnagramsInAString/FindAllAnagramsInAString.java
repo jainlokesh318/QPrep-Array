@@ -18,6 +18,7 @@ class FindAllAnagramsInAString {
         scanner.close();
 
         List<Integer> result = new FindAllAnagramsInAString().findAnagrams(s,p);
+	System.out.println(result.size());
         for (Integer i = 0; i < result.size(); ++i) {
             System.out.printf("%d ", result.get(i));
         }
