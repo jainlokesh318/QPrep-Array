@@ -3,6 +3,7 @@ import java.util.*;
 // Implement your solution here
 class LongestSubstringWithAtMostKDistinctCharacter {
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
+        System.out.println(s);
 
         return 0;
     }
@@ -10,6 +11,7 @@ class LongestSubstringWithAtMostKDistinctCharacter {
         Scanner scanner = new Scanner(System.in);
         int n = scanner.nextInt();
         int k = scanner.nextInt();
+	scanner.nextLine();
         String s = scanner.nextLine();
         scanner.close();
 
