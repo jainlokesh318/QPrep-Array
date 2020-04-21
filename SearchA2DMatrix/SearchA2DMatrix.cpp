@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#include "Solution.cpp"
+#include "solution.cpp"
 using namespace std;
 
 int main()
