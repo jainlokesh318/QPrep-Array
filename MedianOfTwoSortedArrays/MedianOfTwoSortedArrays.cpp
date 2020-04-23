@@ -25,7 +25,7 @@ int main()
 	    cin >> size1;
 	    cin >> size2;
 	    double answer = findMedianOfTwoSortedArrays(nums1, nums2, size1, size2);
-	    cout << answer << "\n";
+	    cout << fixed << setprecision(1) << answer << "\n";
 	}
 	return 0;
 }
