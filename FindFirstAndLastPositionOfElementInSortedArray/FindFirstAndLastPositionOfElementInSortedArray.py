@@ -1,17 +1,10 @@
-from crio.python.io import PrintMatrix
-
-def searchRange(nums):
-    v = [-1, -1]
-    # Your implementation goes here
-
-    return v
+from solution import solution
 
 if __name__ == '__main__':
-    row = input().split()
-    n = int(row[0])
-    target = int(row[1])
-    nums = input().split()
-    nums = [int(i) for i in nums]
-    result = searchRange(nums)
-    PrintMatrix.OneDMatrix(result, ' ')
-
+    n = int(input())
+    nums = list(map(int, input().strip().split()))
+    q = int(input())
+    for _q in range(q):
+        target = int(input())
+        result = solution().searchRange(nums, target)
+        print(*result)

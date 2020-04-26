@@ -1,28 +1,22 @@
-#include "../crio/cpp/io/FastIO.hpp"
-#include "../crio/cpp/io/PrintMatrix.hpp"
-#include "../crio/cpp/io/ReadMatrix.hpp"
 #include <bits/stdc++.h>
+#include "solution.cpp"
 using namespace std;
 
-class FindFirstAndLastPositionOfElementInSortedArray {
-  public:
-    vector<int> searchRange(vector<int> nums, int target) {
-        vector<int> v(2, -1);
-        // Your implementation goes here
-	
-        return v;
-    }
-};
-
 int main() {
-    FastIO();
-    int n, target;
-    cin >> n >> target;
-    vector<int> nums;
-    ReadMatrix<int>().OneDMatrix(n, nums);
-    vector<int> result =
-        FindFirstAndLastPositionOfElementInSortedArray().searchRange(nums,
-                                                                     target);
-    PrintMatrix<int>().OneDMatrix(result, " ");
+    
+    int n;
+    cin >> n;
+    vector<int> nums(n);
+    for(int i = 0 ; i < n ; i++) {
+        cin >> nums[i];
+    }
+    int q;
+    cin >> q;
+    for(int i = 0 ;i < q ; i++) {
+        int target;
+        cin >> target;
+        vector<int> result = solution().searchRange(nums,target);
+        cout << result[0] << " " << result[1] << "\n";
+    }
     return 0;
 }
