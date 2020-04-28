@@ -5,7 +5,8 @@ First line contains two space seperated integers representing the value of N and
 Next line contains the string S.
 
 Constraints-
-1 <= N,K <= 100000
+1 <= N <= 100000
+0 <= K <= 100000
 
 
 Output Format -
