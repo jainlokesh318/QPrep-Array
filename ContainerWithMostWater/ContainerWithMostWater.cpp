@@ -10,10 +10,9 @@ class ContainerWithMostWater {
     int maxArea(vector<int> &nums)
 {
     int ans = INT_MIN;
-    for(int i = 0; i < nums.size()-1; i++)
+    for(int i = 0; i < (int)nums.size()-1; i++)
     {
-        int tower = INT_MIN;
-        for(int j = i+1; j < nums.size(); j++)
+        for(int j = i+1; j < (int)nums.size(); j++)
         {
             int curr = min(nums[i], nums[j])*(j-i);
             ans = max(ans, curr);
