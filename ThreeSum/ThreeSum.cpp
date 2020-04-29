@@ -8,7 +8,7 @@ class ThreeSum {
 public:
     // Implement your solution here	
 
-    void twoSum(vector<int> nums, int req, int fp, set<vector<int>> &res)
+    void twoSum(vector<int> nums, int req, int fp, set< vector<int> > &res)
 {
     int sp = nums.size()-1;
     int cur;
