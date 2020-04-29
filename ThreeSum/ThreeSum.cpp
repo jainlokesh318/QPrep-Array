@@ -18,7 +18,7 @@ public:
         if(cur == req)
         {
      //       cout << "\t" << -req << " " << nums[fp] << " " << nums[sp] << "\n";
-            vector<int> trip = {-req, nums[fp], nums[sp]};
+            vector<int> trip{-req, nums[fp], nums[sp]};
             sort(trip.begin(), trip.end());
             res.insert(trip);
             fp++;
@@ -39,6 +39,7 @@ public:
         vector<vector<int> > ans;
         
         set<vector<int> > res;
+        set<vector<int> >:: iterator itr;
         for(int i = 0; i < (int)nums.size()-2; i++)
         {
             // cout << "For " << i << "\n";
@@ -47,7 +48,7 @@ public:
             twoSum(nums, -nums[i], i+1, res);
         }
 
-        for(auto itr = res.begin(); itr != res.end(); itr++)
+        for(itr = res.begin(); itr != res.end(); itr++)
             ans.push_back(*itr);
             
         return ans;
