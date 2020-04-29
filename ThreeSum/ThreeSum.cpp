@@ -24,7 +24,11 @@ public:
             int sum = nums[i]+nums[l]+nums[r];
             if(sum == 0)
             {
-                ans.push_back({nums[i], nums[l], nums[r]});
+                vector<int> trip;
+                trip.push_back(nums[i]);
+                trip.push_back(nums[l]);
+                trip.push_back(nums[r]);
+                ans.push_back(trip);
                 l++;
                 r--;
                 while(l<r && nums[l] == nums[l-1]) l++;
