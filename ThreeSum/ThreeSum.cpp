@@ -8,54 +8,34 @@ class ThreeSum {
 public:
     // Implement your solution here	
 
-    void twoSum(vector<int> nums, int req, int fp, set< vector<int> > &res)
+    vector<vector<int> > threeSum(vector<int>& nums)
 {
-    int sp = nums.size()-1;
-    int cur;
-    while(fp < sp)
-    {
-        cur = nums[fp] + nums[sp];
-        if(cur == req)
-        {
-     //       cout << "\t" << -req << " " << nums[fp] << " " << nums[sp] << "\n";
-            vector<int> trip;
-            trip.push_back(-req);
-            trip.push_back(nums[fp]);
-            trip.push_back(nums[sp]);
-            sort(trip.begin(), trip.end());
-            res.insert(trip);
-            fp++;
-            sp--;
-            while(nums[fp] == nums[fp-1] && fp < sp)
-                fp++;
-            while(nums[sp] == nums[sp+1] && fp < sp)
-                sp++;
-        }
-        else if(cur < req)
-            fp++;
-        else
-            sp++;
-    }
-}
-
-    vector<vector<int> > threeSum(vector<int>& nums) {
-        vector<vector<int> > ans;
-        
-        set<vector<int> > res;
-        set<vector<int> >:: iterator itr;
-        for(int i = 0; i < (int)nums.size()-2; i++)
-        {
-            // cout << "For " << i << "\n";
-            if(i > 0 && nums[i] == nums[i-1])
-                continue;
-            twoSum(nums, -nums[i], i+1, res);
-        }
-
-        for(itr = res.begin(); itr != res.end(); itr++)
-            ans.push_back(*itr);
-            
+    vector<vector<int> > ans;
+    if(nums.size() <= 2)
         return ans;
+
+    sort(nums.begin(), nums.end());
+    for(int i = 0; i < nums.size()-2; i++)
+    {
+        if (i != 0 && nums[i] == nums[i-1]) continue;
+        int l = i+1, r = nums.size()-1;
+        while(l < r)
+        {
+            int sum = nums[i]+nums[l]+nums[r];
+            if(sum == 0)
+            {
+                ans.push_back({nums[i], nums[l], nums[r]});
+                l++;
+                r--;
+                while(l<r && nums[l] == nums[l-1]) l++;
+                while(l<r && nums[r] == nums[r+1]) r--;
+            }
+            else if(sum < 0) l++;
+            else r--;
+        }
     }
+    return ans;
+}
 };
 
 int main() {
