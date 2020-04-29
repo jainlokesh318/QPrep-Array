@@ -8,7 +8,18 @@ class RemoveDuplicatesFromSortedArray {
 public:
     // Implement your solution here	
     int removeDuplicates(vector<int>& nums) {
-        int ans = 0;
+        int ans = 0, i = 0;
+
+        if(nums.size() == 0)
+        return 0;
+    
+        for(int j = 0; j < nums.size(); j++)
+        {
+            if(nums[i] != nums[j])
+                i = j;
+            if(i == j)
+                ans++;
+        }
 
         return ans;
     }
