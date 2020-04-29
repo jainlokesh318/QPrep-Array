@@ -18,7 +18,10 @@ public:
         if(cur == req)
         {
      //       cout << "\t" << -req << " " << nums[fp] << " " << nums[sp] << "\n";
-            vector<int> trip{-req, nums[fp], nums[sp]};
+            vector<int> trip;
+            trip.push_back(-req);
+            trip.push_back(nums[fp]);
+            trip.push_back(nums[sp]);
             sort(trip.begin(), trip.end());
             res.insert(trip);
             fp++;
