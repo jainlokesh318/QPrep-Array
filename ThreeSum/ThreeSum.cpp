@@ -35,10 +35,10 @@ public:
     }
 }
 
-    vector<vector<int>> threeSum(vector<int>& nums) {
-        vector<vector<int>> ans;
+    vector<vector<int> > threeSum(vector<int>& nums) {
+        vector<vector<int> > ans;
         
-        set<vector<int>> res;
+        set<vector<int> > res;
         for(int i = 0; i < (int)nums.size()-2; i++)
         {
             // cout << "For " << i << "\n";
@@ -47,8 +47,8 @@ public:
             twoSum(nums, -nums[i], i+1, res);
         }
 
-        for(vector<int> x : res)
-            ans.push_back(x);
+        for(auto itr = res.begin(), itr != res.end(); itr++)
+            ans.push_back(*itr);
             
         return ans;
     }
