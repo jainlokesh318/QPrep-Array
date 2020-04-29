@@ -47,7 +47,7 @@ public:
             twoSum(nums, -nums[i], i+1, res);
         }
 
-        for(auto itr = res.begin(), itr != res.end(); itr++)
+        for(auto itr = res.begin(); itr != res.end(); itr++)
             ans.push_back(*itr);
             
         return ans;
