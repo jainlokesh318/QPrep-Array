@@ -12,20 +12,15 @@ int lengthOfLongestSubstringKDistinct(string s, int k) {
 
     for(; r < n; r++)
     {
-   // cout << "start of window " << sp << " end of window" << ep << "\n";
         if(mapi[s[r]] == 0)
             cnt++;
         mapi[s[r]]++;
 
-      //      cout << "size = " << char_list.size() << "\n";
         while(cnt > k)
         {
-        //    cout << "\tok i am here ";
             mapi[s[l]]--;
-          //  cout << itr->first << " " << itr->second << "\n";
-            if(mapi[s[l]] == 0) {cnt--;
+            if(mapi[s[l]] == 0) cnt--;
             l++;
-            }
         }
         ans = max(ans, r-l+1);
     }
