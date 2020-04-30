@@ -9,7 +9,7 @@ int totalFruit(vector<int>& s) {
         return 0;
 
     int l = 0, r = 0, ans = 0, cnt = 0;
-    vector<int> mapi(256, 0);
+    vector<int> mapi(100004, 0);
 
     for(; r < n; r++)
     {
