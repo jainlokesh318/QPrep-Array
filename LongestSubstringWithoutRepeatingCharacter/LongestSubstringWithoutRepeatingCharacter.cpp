@@ -6,9 +6,24 @@ using namespace std;
 class LongestSubstringWithoutRepeatingCharacter {
   public:
     int lengthOfLongestSubstring(string s) {
-        int longestSubstring = 0;
+         int n = s.size(), p = 0, ans = 0;
+    set<char> occ;
+    set<char>::iterator itr;
 
-        return longestSubstring;
+    for(int i = 0; i < n; i++)
+    {
+        itr = occ.find(s[i]);
+        while(itr != occ.end())
+        {
+            occ.erase(s[p]);
+            p++;
+            itr = occ.find(s[i]);
+        }
+
+        occ.insert(s[i]);
+        ans = max(ans, (int)occ.size());
+    }
+    return ans;
     }
 };
 
