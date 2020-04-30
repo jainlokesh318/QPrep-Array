@@ -24,7 +24,7 @@ int lengthOfLongestSubstringKDistinct(string s, int k) {
             itr->second++;
 
       //      cout << "size = " << char_list.size() << "\n";
-        while(char_list.size() > k)
+        while((int)char_list.size() > k)
         {
         //    cout << "\tok i am here ";
             itr = char_list.find(s[sp]);
