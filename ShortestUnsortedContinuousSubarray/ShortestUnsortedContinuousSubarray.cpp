@@ -4,7 +4,7 @@ using namespace std;
 // Implement your solution here
 int findUnsortedSubarray(vector<int>& nums) { 
 
-	int ans = 0, fp = 0, sp = 0;
+	int fp = 0, sp = 0;
 
     for(int i = 1; i < (int)nums.size(); i++)
     {
