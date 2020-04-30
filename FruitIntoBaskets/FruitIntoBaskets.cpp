@@ -27,7 +27,8 @@ int totalFruit(vector<int>& s) {
             if(mapi[s[l]] == 0) cnt--;
             l++;
         }
-        ans = max(ans, r-l+1);
+		if(cnt == k)
+       	 ans = max(ans, r-l+1);
     }
 
     return ans;
