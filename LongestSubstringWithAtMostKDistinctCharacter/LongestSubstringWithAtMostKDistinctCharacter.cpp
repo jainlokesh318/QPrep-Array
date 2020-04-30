@@ -7,36 +7,26 @@ int lengthOfLongestSubstringKDistinct(string s, int k) {
     if(k == 0 || n == 0)
         return 0;
 
-    int sp = 0, ep = 0, ans = 0;
-    map<char, int> char_list;
-    map<char, int>:: iterator itr;
+    int l = 0, r = 0, ans = 0, cnt = 0;
+    vector<int> mapi(256, 0);
 
-    for(; ep < n; ep++)
+    for(; r < n; r++)
     {
    // cout << "start of window " << sp << " end of window" << ep << "\n";
-        itr = char_list.find(s[ep]);
-
-        if(itr == char_list.end()){
-     //       cout << "add " << s[ep] << "\n";
-            char_list.insert({s[ep], 1});
-        }
-        else
-            itr->second++;
+        if(mapi[s[r]] == 0)
+            cnt++;
+        mapi[s[r]]++;
 
       //      cout << "size = " << char_list.size() << "\n";
-        while((int)char_list.size() > k)
+        while(cnt > k)
         {
         //    cout << "\tok i am here ";
-            itr = char_list.find(s[sp]);
+            mapi[s[l]]--;
           //  cout << itr->first << " " << itr->second << "\n";
-            if(itr->second == 0){
-                char_list.erase(itr);
-                sp++;
-            }
-            else
-                itr->second--;
+            if(mapi[s[l]] == 0) cnt--;
+            l++;
         }
-        ans = max(ans, ep-sp+1);
+        ans = max(ans, r-l+1);
     }
 
     return ans;
