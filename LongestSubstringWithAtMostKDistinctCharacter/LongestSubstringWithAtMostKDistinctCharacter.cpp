@@ -23,8 +23,9 @@ int lengthOfLongestSubstringKDistinct(string s, int k) {
         //    cout << "\tok i am here ";
             mapi[s[l]]--;
           //  cout << itr->first << " " << itr->second << "\n";
-            if(mapi[s[l]] == 0) cnt--;
+            if(mapi[s[l]] == 0) {cnt--;
             l++;
+            }
         }
         ans = max(ans, r-l+1);
     }
