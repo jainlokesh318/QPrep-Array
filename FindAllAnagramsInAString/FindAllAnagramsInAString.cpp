@@ -3,9 +3,24 @@ using namespace std;
 
 // Implement your solution here
 vector<int> findAnagrams(string s, string p) {
-	vector<int>ans;
+	
+    vector<int> res;
+    int n = s.size();
+    int m = p.size();
 
-	return ans;
+    if(n < m || n == 0)
+        return res;
+
+    sort(p.begin(), p.end());
+    for(int i = 0; i <= n-m ; i++)
+    {
+        string x = s.substr(i, m);
+        sort(x.begin(), x.end());
+
+        if(x == p)
+            res.push_back(i);
+    }
+    return res;
 }
 
 int main()
