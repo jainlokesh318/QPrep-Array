@@ -55,7 +55,7 @@ bool searchInMatrixRow(vector<vector<long long> > &mat, int l, int r, long long 
     {
         if(searchInMatrixCol(mat, i, m-1, target))
             return true;
-        else  if(searchInMatrixRow(mat, i, n-1, target));
+        else  if(searchInMatrixRow(mat, i, n-1, target))
             return true;
     }
     return false;
