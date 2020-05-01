@@ -3,7 +3,7 @@ using namespace std;
 
 class solution {
     public:
-        int fir(vector<int> v, int target)
+        int fir(vector<int> &v, int target)
 {
     int first = -1;
     int l = 0, r = v.size();
@@ -25,7 +25,7 @@ class solution {
     return first;
 }
 
-int las(vector<int> v, int target)
+int las(vector<int> &v, int target)
 {
     int last = -1;
     int l = 0, r = v.size();
