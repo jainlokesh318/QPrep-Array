@@ -3,9 +3,7 @@ using namespace std;
 
 // Implement your solution here
 int countConversionBits(long long a,long long b) {
-	int result = 0;
-
-	return result;
+	return __builtin_popcount(a^b);
 }
 
 int main() {
