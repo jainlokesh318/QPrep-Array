@@ -2,14 +2,25 @@
 using namespace std;
 
 // Implement your solution here
-int countConversionBits(long long a,long long b) {
-	return __builtin_popcount(a^b);
+
+int countBits(long long a)
+{
+    int cnt = 0;
+
+    while(a > 0)
+    {
+        if(a&1)
+            cnt++;
+        a = a >> 1;
+    }
+    return cnt;
 }
+
 
 int main() {
 	long long a , b;
 	cin >> a >> b;
-	int answer = countConversionBits(a,b);
+	int answer = countBits(a^b);
 	cout << answer;
 	return 0;
 }
